@@ -18,6 +18,8 @@ import com.devsuperior.dsmeta.dto.SaleSummaryDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
 
+import projections.SaleMinProjection;
+
 @Service
 public class SaleService {
 
@@ -31,7 +33,7 @@ public class SaleService {
 	}
 
 	public List<SaleSummaryDTO> searchSummary(String minDate, String maxDate) {
-		
+
 		try {
 			LocalDate startDate = null;
 			LocalDate endDate = null;
@@ -53,19 +55,18 @@ public class SaleService {
 
 			}
 			List<SaleSummaryDTO> list = repository.searchSummary(LocalDate.parse(minDate), LocalDate.parse(maxDate));
-			List<SaleSummaryDTO> dto = list.stream().map(x -> new SaleSummaryDTO(x))
-					.collect(Collectors.toList());
+			List<SaleSummaryDTO> dto = list.stream().map(x -> new SaleSummaryDTO(x)).collect(Collectors.toList());
 
 			return dto;
 
 		} catch (DateTimeParseException e) {
 			throw new IllegalArgumentException("Formato de data inválido");
 		}
-		
+
 	}
 
 	public Page<SaleMinDTO> searchSales(String minDate, String maxDate, String name, Pageable pageable) {
-		
+
 		try {
 			LocalDate startDate = null;
 			LocalDate endDate = null;
@@ -86,11 +87,15 @@ public class SaleService {
 				maxDate = endDate.toString();
 
 			}
-		Page<SaleMinDTO> result = repository.searchSales(LocalDate.parse(minDate),
-				LocalDate.parse(maxDate), name, pageable);		
-		  
-		return result.map(x -> new SaleMinDTO(x));
-	}catch(DateTimeParseException e) {
+
+			Page<SaleMinProjection> result = repository.searchSales(LocalDate.parse(minDate),
+					LocalDate.parse(maxDate), name,
+					pageable);			
+			Page<SaleMinDTO> dto = result.map(x -> new SaleMinDTO(x));
+
+			return dto;
+
+		} catch (DateTimeParseException e) {
 			throw new IllegalArgumentException("Formato de data inválido");
 		}
 	}
