@@ -22,7 +22,7 @@ public class SaleMinDTO {
 	public SaleMinDTO(Sale entity) {
 		id = entity.getId();
 		amount = entity.getAmount();
-		date = entity.getDate();
+		date = entity.getDate();		
 	}
 	
 	public SaleMinDTO(SaleMinProjection projection) {
@@ -35,6 +35,13 @@ public class SaleMinDTO {
 	public SaleMinDTO(SaleSummaryDTO x) {
 		name = x.getSellerName();
 		amount = x.total;
+	}
+
+	public SaleMinDTO(SaleMinDTO x) {
+		id = x.getId();
+		date = x.getDate();
+		amount = x.getAmount();
+		name = x.getName();
 	}
 
 	public Long getId() {

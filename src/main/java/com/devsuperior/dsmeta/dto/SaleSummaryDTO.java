@@ -1,7 +1,5 @@
 package com.devsuperior.dsmeta.dto;
 
-import projections.SaleMinProjection;
-
 public class SaleSummaryDTO {
 	
 	String sellerName;
@@ -21,9 +19,7 @@ public class SaleSummaryDTO {
 		
 		sellerName = x.getSellerName();
 		total = x.getTotal();
-	}	
-
-	
+	}		
 
 	public String getSellerName() {
 		return sellerName;

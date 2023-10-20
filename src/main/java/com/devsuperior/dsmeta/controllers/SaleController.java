@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,17 +30,21 @@ public class SaleController {
 	}
 
 	@GetMapping(value = "/report")
-	public ResponseEntity<?> getReport() {
-		// TODO
-		return null;
+	public ResponseEntity<Page<SaleMinDTO>> getReport(@RequestParam String minDate,
+			@RequestParam String maxDate,
+			@RequestParam(defaultValue = "")String name, Pageable pageable) {
+		
+		Page<SaleMinDTO> result = service.searchSales(minDate, maxDate, name, pageable);
+		return ResponseEntity.ok(result);
 	}
 
 	@GetMapping(value = "/summary")
-	public ResponseEntity<List<SaleSummaryDTO>> getSummary(@RequestParam(required = false) String minDate, @RequestParam(required = false) String maxDate) {
-					
-		//Page<SumaryMinProjection> result = service.searchByDates(minDate, maxDate, name,  pageable);
+	public ResponseEntity<List<SaleSummaryDTO>> getSummary(@RequestParam String minDate,
+			@RequestParam String maxDate) {
+		
 		List<SaleSummaryDTO> result = service.searchSummary(minDate, maxDate);
 		return ResponseEntity.ok(result);
 		
-	}
+	}	
+	
 }
