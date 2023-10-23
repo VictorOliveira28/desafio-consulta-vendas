@@ -39,8 +39,8 @@ public class SaleController {
 	}
 
 	@GetMapping(value = "/summary")
-	public ResponseEntity<List<SaleSummaryDTO>> getSummary(@RequestParam String minDate,
-			@RequestParam String maxDate) {
+	public ResponseEntity<List<SaleSummaryDTO>> getSummary(@RequestParam(required = false) String minDate,
+			@RequestParam(required = false) String maxDate) {
 		
 		List<SaleSummaryDTO> result = service.searchSummary(minDate, maxDate);
 		return ResponseEntity.ok(result);

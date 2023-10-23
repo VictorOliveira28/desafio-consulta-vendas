@@ -18,8 +18,6 @@ import com.devsuperior.dsmeta.dto.SaleSummaryDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
 
-import projections.SaleMinProjection;
-
 @Service
 public class SaleService {
 
@@ -85,10 +83,9 @@ public class SaleService {
 			} else {
 				endDate = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
 				maxDate = endDate.toString();
-
 			}
 
-			Page<SaleMinProjection> result = repository.searchSales(LocalDate.parse(minDate),
+			Page<Sale> result = repository.searchSales(LocalDate.parse(minDate),
 					LocalDate.parse(maxDate), name,
 					pageable);			
 			Page<SaleMinDTO> dto = result.map(x -> new SaleMinDTO(x));
